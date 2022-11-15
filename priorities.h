@@ -31,11 +31,11 @@
 // TODO: what do priorities mean exactly
 //*****************************************************************************
 #define PRIORITY_LED_TASK                   1
-#define PRIORITY_SWITCH_TASK                2
-#define PRIORITY_PRESSURE_SENSOR_TASK       3
-#define PRIORITY_AMMETER_TASK               4
-#define PRIORITY_DCDC_TASK                  5
-#define PRIORITY_TEMPERATURE_SENSOR_TASK    6
+#define PRIORITY_SWITCH_TASK                1
+#define PRIORITY_PRESSURE_SENSOR_TASK       1
+#define PRIORITY_AMMETER_TASK               1
+#define PRIORITY_DCDC_TASK                  1
+#define PRIORITY_TEMPERATURE_SENSOR_TASK    1
 
 
 #endif // __PRIORITIES_H__

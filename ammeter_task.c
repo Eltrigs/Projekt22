@@ -75,6 +75,7 @@ int AmmeterReadRegisters(void){
 
 
     result = result + I2CMasterDataGet(I2C0_BASE);
+
     xSemaphoreTake(g_pUARTSemaphore, portMAX_DELAY);
     UARTprintf("Ammeter current: %d\n", result);
     xSemaphoreGive(g_pUARTSemaphore);
@@ -109,7 +110,7 @@ uint32_t
 AmmeterTaskInit(void)
 {
 
-    UARTprintf("\n ammeter task init()\n");
+    UARTprintf("\nAmmeter task init()\n");
 
     //
     // Create the task.

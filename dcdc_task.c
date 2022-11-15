@@ -29,7 +29,7 @@
 
 
 // The stack size for the dcdc task.
-#define DCDC_CONVERTER_STACK_SIZE        128         // Stack size in words
+#define DCDC_CONVERTER_STACK_SIZE        1024         // Stack size in words
 
 
 // Set the address for slave module. This is a 7-bit address sent in the
@@ -50,28 +50,19 @@ int WriteDCDCRegister(uint32_t reg, uint32_t data){
     I2CMasterSlaveAddrSet(I2C0_BASE, DCDC_SLAVE_ADDRESS, false);
     I2CMasterDataPut(I2C0_BASE, reg);
     I2CMasterControl(I2C0_BASE, I2C_MASTER_CMD_BURST_SEND_START);
-     while(I2CMasterBusy(I2C0_BASE));
-    //while(I2C0_MCS_R&1){}
-     xSemaphoreTake(g_pUARTSemaphore, portMAX_DELAY);
-     UARTprintf("sent\n");
-     xSemaphoreGive(g_pUARTSemaphore);
+    while(I2CMasterBusy(I2C0_BASE));
+    UARTprintf("Sent register to be modified\n");
     if(I2CMasterErr(I2C0_BASE)){
-        xSemaphoreTake(g_pUARTSemaphore, portMAX_DELAY);
         UARTprintf("Error transmitting DCDC write 1\n");
-        xSemaphoreGive(g_pUARTSemaphore);
     }
     I2CMasterDataPut(I2C0_BASE, data);
     I2CMasterControl(I2C0_BASE, I2C_MASTER_CMD_BURST_SEND_CONT);
     while(I2CMasterBusy(I2C0_BASE));
 
-    xSemaphoreTake(g_pUARTSemaphore, portMAX_DELAY);
-    UARTprintf("sent\n");
-    xSemaphoreGive(g_pUARTSemaphore);
+    UARTprintf("Sent value to selected register\n");
 
     if(I2CMasterErr(I2C0_BASE)){
-        xSemaphoreTake(g_pUARTSemaphore, portMAX_DELAY);
         UARTprintf("Error transmitting DCDC write 2\n");
-        xSemaphoreGive(g_pUARTSemaphore);
     }
     I2CMasterControl(I2C0_BASE, I2C_MASTER_CMD_BURST_SEND_STOP);
     xSemaphoreGive(g_pI2CSemaphore);
@@ -188,7 +179,7 @@ DCDCTaskInit(void)
     //
     // Create the DCDC task.
     //
-    if(xTaskCreate(DCDCTask, (const portCHAR *)"DCDC converter", DCDC_CONVERTER_STACK_SIZE, NULL,
+    if(xTaskCreate(DCDCTask, (const portCHAR *)"DCDCconverter", DCDC_CONVERTER_STACK_SIZE, NULL,
                    tskIDLE_PRIORITY + PRIORITY_DCDC_TASK, NULL) != pdTRUE)
     {
         return(1);

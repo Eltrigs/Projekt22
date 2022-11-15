@@ -157,28 +157,24 @@ ConfigureUART(void)
     // Initialize the UART for console I/O.
     //
     UARTStdioConfig(0, 115200, 16000000);
+    UARTprintf("\nUART init done\n");
 }
 
 void ConfigureADC(void)
 {
     // Set up ADC
-    UARTprintf("\nTemperature sensor task init0()\n");
     FPULazyStackingEnable();
     FPUEnable();
     //Enable clock for ADC0
     SysCtlPeripheralEnable(SYSCTL_PERIPH_ADC0);
     SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOB);
-    UARTprintf("\nTemperature sensor task init1()\n");
     // Enable hardware averaging on ADC0
     ADCHardwareOversampleConfigure(ADC0_BASE, 64);
-    UARTprintf("\nTemperature sensor task init2()\n");
     // Configure to use ADC0, sample sequencer 0, processor to trigger sequence and use highest priority
     ADCSequenceConfigure(ADC0_BASE, 0, ADC_TRIGGER_PROCESSOR, 0);
-    UARTprintf("\nTemperature sensor task init3()\n");
     // Configure PB4 as Analog Input Pin
     GPIOPinTypeADC(GPIO_PORTB_BASE, GPIO_PIN_4);
     // Configure all 8 steps on sequencer 0 to sample temperature sensor
-    UARTprintf("\nTemperature sensor task init4()\n");
     ADCSequenceStepConfigure(ADC0_BASE, 0, 0, ADC_CTL_CH10);
     ADCSequenceStepConfigure(ADC0_BASE, 0, 1, ADC_CTL_CH10);
     ADCSequenceStepConfigure(ADC0_BASE, 0, 2, ADC_CTL_CH10);
@@ -190,7 +186,7 @@ void ConfigureADC(void)
     ADCSequenceStepConfigure(ADC0_BASE, 0, 7, ADC_CTL_CH10|ADC_CTL_IE|ADC_CTL_END);
     // Enable Sequencer 0
     ADCSequenceEnable(ADC0_BASE, 0);
-    UARTprintf("\nTemperature sensor task init5()\n");
+    UARTprintf("\nADC init done\n");
 }
 
 void
@@ -276,6 +272,7 @@ ConfigureI2C(void)
     #else
         I2CMasterInitExpClk(I2C0_BASE, SysCtlClockGet(), false);
     #endif
+    UARTprintf("\nI2C init done\n");
 }
 
 //*****************************************************************************
@@ -330,10 +327,10 @@ main(void)
         while(1){}
     }
 
-    /*if(TemperatureSensorTaskInit() != 0)
+    if(TemperatureSensorTaskInit() != 0)
     {
         while(1){}
-    }*/
+    }
 
     // Start the scheduler.  This should not return.
     vTaskStartScheduler();
