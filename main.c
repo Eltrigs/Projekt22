@@ -317,7 +317,7 @@ main(void)
         while(1){}
     }
 
-   if(AmmeterTaskInit() != 0)
+    if(AmmeterTaskInit() != 0)
     {
        while(1){}
     }
@@ -327,10 +327,10 @@ main(void)
         while(1){}
     }
 
-    if(TemperatureSensorTaskInit() != 0)
+    /*if(TemperatureSensorTaskInit() != 0)
     {
         while(1){}
-    }
+    }*/
 
     // Start the scheduler.  This should not return.
     vTaskStartScheduler();

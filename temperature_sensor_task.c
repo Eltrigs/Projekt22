@@ -58,9 +58,6 @@ int TSReadADC(void){
 
     uint32_t ui32ADC0Value[8];          // Array to store the ADC values
     uint32_t ui32ADCAvg;                // Variable to store the Average of ADC values
-    portTickType ui16LastTime;
-    uint32_t ui32TemperatureSensorDelay = 2500;
-    ui16LastTime = xTaskGetTickCount();
 
     // Clear the ADC Interrupt (if any generated) for Sequencer 0
     ADCIntClear(ADC0_BASE, 0);
@@ -68,13 +65,8 @@ int TSReadADC(void){
     // Trigger the ADC Sampling for Sequencer 0
     ADCProcessorTrigger(ADC0_BASE, 0);
     UARTprintf("\nTS ADC2\n");
-    int i = 0;
     // Wait the program while the conversion isn't complete
-    while(i<100000)
-    {
-        i++;
-        //ADCIntStatus(ADC0_BASE, 0, false)
-    }
+    while(!ADCIntStatus(ADC0_BASE, 0, false));
     UARTprintf("\nTS ADC3\n");
     // Store the values in sequencer 0 of ADC0 to an Array
     ADCSequenceDataGet(ADC0_BASE, 0, ui32ADC0Value);
