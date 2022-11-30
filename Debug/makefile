@@ -10,14 +10,11 @@ GEN_OPTS__FLAG :=
 GEN_CMDS__FLAG := 
 
 ORDERED_OBJS += \
-"./ammeter_task.obj" \
-"./dcdc_task.obj" \
 "./led_task.obj" \
 "./main.obj" \
-"./pressure_sensor_task.obj" \
+"./measurement_task.obj" \
 "./startup_ccs.obj" \
 "./switch_task.obj" \
-"./temperature_sensor_task.obj" \
 "./drivers/buttons.obj" \
 "./drivers/rgb.obj" \
 "./third_party/FreeRTOS/Source/list.obj" \
@@ -183,8 +180,8 @@ Projekt22.bin: $(EXE_OUTPUTS)
 # Other Targets
 clean:
 	-$(RM) $(BIN_OUTPUTS__QUOTED)$(EXE_OUTPUTS__QUOTED)
-	-$(RM) "ammeter_task.obj" "dcdc_task.obj" "led_task.obj" "main.obj" "pressure_sensor_task.obj" "startup_ccs.obj" "switch_task.obj" "temperature_sensor_task.obj" "drivers\buttons.obj" "drivers\rgb.obj" "third_party\FreeRTOS\Source\list.obj" "third_party\FreeRTOS\Source\queue.obj" "third_party\FreeRTOS\Source\tasks.obj" "third_party\FreeRTOS\Source\portable\CCS\ARM_CM4F\port.obj" "third_party\FreeRTOS\Source\portable\CCS\ARM_CM4F\portasm.obj" "third_party\FreeRTOS\Source\portable\MemMang\heap_2.obj" "utils\uartstdio.obj" "utils\ustdlib.obj" 
-	-$(RM) "ammeter_task.d" "dcdc_task.d" "led_task.d" "main.d" "pressure_sensor_task.d" "startup_ccs.d" "switch_task.d" "temperature_sensor_task.d" "drivers\buttons.d" "drivers\rgb.d" "third_party\FreeRTOS\Source\list.d" "third_party\FreeRTOS\Source\queue.d" "third_party\FreeRTOS\Source\tasks.d" "third_party\FreeRTOS\Source\portable\CCS\ARM_CM4F\port.d" "third_party\FreeRTOS\Source\portable\MemMang\heap_2.d" "utils\uartstdio.d" "utils\ustdlib.d" 
+	-$(RM) "led_task.obj" "main.obj" "measurement_task.obj" "startup_ccs.obj" "switch_task.obj" "drivers\buttons.obj" "drivers\rgb.obj" "third_party\FreeRTOS\Source\list.obj" "third_party\FreeRTOS\Source\queue.obj" "third_party\FreeRTOS\Source\tasks.obj" "third_party\FreeRTOS\Source\portable\CCS\ARM_CM4F\port.obj" "third_party\FreeRTOS\Source\portable\CCS\ARM_CM4F\portasm.obj" "third_party\FreeRTOS\Source\portable\MemMang\heap_2.obj" "utils\uartstdio.obj" "utils\ustdlib.obj" 
+	-$(RM) "led_task.d" "main.d" "measurement_task.d" "startup_ccs.d" "switch_task.d" "drivers\buttons.d" "drivers\rgb.d" "third_party\FreeRTOS\Source\list.d" "third_party\FreeRTOS\Source\queue.d" "third_party\FreeRTOS\Source\tasks.d" "third_party\FreeRTOS\Source\portable\CCS\ARM_CM4F\port.d" "third_party\FreeRTOS\Source\portable\MemMang\heap_2.d" "utils\uartstdio.d" "utils\ustdlib.d" 
 	-$(RM) "third_party\FreeRTOS\Source\portable\CCS\ARM_CM4F\portasm.d" 
 	-@echo 'Finished clean'
 	-@echo ' '

@@ -32,12 +32,11 @@
 #include "driverlib/sysctl.h"
 #include "driverlib/uart.h"
 #include "utils/uartstdio.h"
+
 #include "led_task.h"
 #include "switch_task.h"
-#include "pressure_sensor_task.h"
-#include "ammeter_task.h"
-#include "dcdc_task.h"
-#include "temperature_sensor_task.h"
+#include "measurement_task.h"
+
 #include "FreeRTOS.h"
 #include "task.h"
 #include "queue.h"
@@ -49,43 +48,22 @@
 #include "driverlib/timer.h"                // Defines and macros for Timer API of driverLib
 #include "driverlib/rom.h"                  // Defines and macros for ROM API of driverLib
 #include "driverlib/adc.h"                  // Defines and macros for ADC API of driverLib
+#include "inc/tm4c123gh6pm.h"
+//*****************************************************************************
+//
+// Data variables for every sensor
+//
+//*****************************************************************************
+uint32_t pressureStatus = 1;
+uint32_t pressureRaw = 0;
+uint32_t pressureTempRaw = 0;
+uint32_t temperatureRaw = 0;
+uint32_t ammeterRaw = 0;
 
-//*****************************************************************************
-//
-//! \addtogroup example_list
-//! <h1>FreeRTOS Example (freertos_demo)</h1>
-//!
-//! This application demonstrates the use of FreeRTOS on Launchpad.
-//!
-//! The application blinks the user-selected LED at a user-selected frequency.
-//! To select the LED press the left button and to select the frequency press
-//! the right button.  The UART outputs the application status at 115,200 baud,
-//! 8-n-1 mode.
-//!
-//! This application utilizes FreeRTOS to perform the tasks in a concurrent
-//! fashion.  The following tasks are created:
-//!
-//! - An LED task, which blinks the user-selected on-board LED at a
-//!   user-selected rate (changed via the buttons).
-//!
-//! - A Switch task, which monitors the buttons pressed and passes the
-//!   information to LED task.
-//!
-//! In addition to the tasks, this application also uses the following FreeRTOS
-//! resources:
-//!
-//! - A Queue to enable information transfer between tasks.
-//!
-//! - A Semaphore to guard the resource, UART, from access by multiple tasks at
-//!   the same time.
-//!
-//! - A non-blocking FreeRTOS Delay to put the tasks in blocked state when they
-//!   have nothing to do.
-//!
-//! For additional details on FreeRTOS, refer to the FreeRTOS web page at:
-//! http://www.freertos.org/
-//
-//*****************************************************************************
+uint32_t pressure;
+uint32_t pressureTemp;
+uint32_t temperature;
+uint32_t ammeterCurrent;
 
 
 //*****************************************************************************
@@ -160,32 +138,64 @@ ConfigureUART(void)
     UARTprintf("\nUART init done\n");
 }
 
+
 void ConfigureADC(void)
 {
-    // Set up ADC
-    FPULazyStackingEnable();
-    FPUEnable();
+
+    uint32_t ui32ADC0Value[8];          // Array to store the ADC values
+    uint32_t ui32ADCAvg;                // Variable to store the Average of ADC values
+
+    ROM_FPULazyStackingEnable();
+    ROM_FPUEnable();
+
+    // Set the clocking to run directly from the crystal.
+    ROM_SysCtlClockSet(SYSCTL_SYSDIV_4 | SYSCTL_USE_PLL | SYSCTL_XTAL_16MHZ |
+                       SYSCTL_OSC_MAIN);
     //Enable clock for ADC0
-    SysCtlPeripheralEnable(SYSCTL_PERIPH_ADC0);
-    SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOB);
+    ROM_SysCtlPeripheralEnable(SYSCTL_PERIPH_ADC0);
+
+    //Enable clock for all Ports B
+    ROM_SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOB);
+
+
+    // Enable the GPIO port that is used for the on-board LED.
+    ROM_SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOF);
+
+
+    // Enable the GPIO pins for the LED (PF2 & PF3).
+    ROM_GPIOPinTypeGPIOOutput(GPIO_PORTF_BASE, GPIO_PIN_2);
+
     // Enable hardware averaging on ADC0
-    ADCHardwareOversampleConfigure(ADC0_BASE, 64);
+    ROM_ADCHardwareOversampleConfigure(ADC0_BASE, 64);
     // Configure to use ADC0, sample sequencer 0, processor to trigger sequence and use highest priority
-    ADCSequenceConfigure(ADC0_BASE, 0, ADC_TRIGGER_PROCESSOR, 0);
+    ROM_ADCSequenceConfigure(ADC0_BASE, 0, ADC_TRIGGER_PROCESSOR, 0);
     // Configure PB4 as Analog Input Pin
-    GPIOPinTypeADC(GPIO_PORTB_BASE, GPIO_PIN_4);
+    ROM_GPIOPinTypeADC(GPIO_PORTB_BASE, GPIO_PIN_4);
     // Configure all 8 steps on sequencer 0 to sample temperature sensor
-    ADCSequenceStepConfigure(ADC0_BASE, 0, 0, ADC_CTL_CH10);
-    ADCSequenceStepConfigure(ADC0_BASE, 0, 1, ADC_CTL_CH10);
-    ADCSequenceStepConfigure(ADC0_BASE, 0, 2, ADC_CTL_CH10);
-    ADCSequenceStepConfigure(ADC0_BASE, 0, 3, ADC_CTL_CH10);
-    ADCSequenceStepConfigure(ADC0_BASE, 0, 4, ADC_CTL_CH10);
-    ADCSequenceStepConfigure(ADC0_BASE, 0, 5, ADC_CTL_CH10);
-    ADCSequenceStepConfigure(ADC0_BASE, 0, 6, ADC_CTL_CH10);
+    ROM_ADCSequenceStepConfigure(ADC0_BASE, 0, 0, ADC_CTL_CH10);
+    ROM_ADCSequenceStepConfigure(ADC0_BASE, 0, 1, ADC_CTL_CH10);
+    ROM_ADCSequenceStepConfigure(ADC0_BASE, 0, 2, ADC_CTL_CH10);
+    ROM_ADCSequenceStepConfigure(ADC0_BASE, 0, 3, ADC_CTL_CH10);
+    ROM_ADCSequenceStepConfigure(ADC0_BASE, 0, 4, ADC_CTL_CH10);
+    ROM_ADCSequenceStepConfigure(ADC0_BASE, 0, 5, ADC_CTL_CH10);
+    ROM_ADCSequenceStepConfigure(ADC0_BASE, 0, 6, ADC_CTL_CH10);
     // Mark as last conversion on sequencer 0 and enable interrupt flag generation on sampling completion
-    ADCSequenceStepConfigure(ADC0_BASE, 0, 7, ADC_CTL_CH10|ADC_CTL_IE|ADC_CTL_END);
+    ROM_ADCSequenceStepConfigure(ADC0_BASE, 0, 7, ADC_CTL_CH10|ADC_CTL_IE|ADC_CTL_END);
     // Enable Sequencer 0
-    ADCSequenceEnable(ADC0_BASE, 0);
+    ROM_ADCSequenceEnable(ADC0_BASE, 0);
+    // Clear the ADC Interrupt (if any generated) for Sequencer 0
+    ROM_ADCIntClear(ADC0_BASE, 0);
+    // Trigger the ADC Sampling for Sequencer 0
+    ROM_ADCProcessorTrigger(ADC0_BASE, 0);
+    // Wait the program till the conversion isn't complete
+    while(!ROM_ADCIntStatus(ADC0_BASE, 0, false));
+    // Store the values in sequencer 0 of ADC0 to an Array
+    ROM_ADCSequenceDataGet(ADC0_BASE, 0, ui32ADC0Value);
+    // Calculate the Average of the Readings
+    ui32ADCAvg = (ui32ADC0Value[0] + ui32ADC0Value[1] + ui32ADC0Value[2] + ui32ADC0Value[3]
+           + ui32ADC0Value[4] + ui32ADC0Value[5] + ui32ADC0Value[6] + ui32ADC0Value[7] + 4)/8;
+
+
     UARTprintf("\nADC init done\n");
 }
 
@@ -312,12 +322,12 @@ main(void)
         while(1){}
     }
 
-    if(PressureSensorTaskInit() != 0)
+    if(MeasurementTaskInit() != 0)
     {
         while(1){}
     }
 
-    if(AmmeterTaskInit() != 0)
+    /*if(AmmeterTaskInit() != 0)
     {
        while(1){}
     }
@@ -327,7 +337,7 @@ main(void)
         while(1){}
     }
 
-    /*if(TemperatureSensorTaskInit() != 0)
+    if(TemperatureSensorTaskInit() != 0)
     {
         while(1){}
     }*/

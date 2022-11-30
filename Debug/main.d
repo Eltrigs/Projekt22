@@ -23,10 +23,7 @@ main.obj: C:/ti/tivaware_c_series_2_1_4_178/utils/uartstdio.h
 main.obj: C:/ti/ccs1200/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/include/stdarg.h
 main.obj: ../led_task.h
 main.obj: ../switch_task.h
-main.obj: ../pressure_sensor_task.h
-main.obj: ../ammeter_task.h
-main.obj: ../dcdc_task.h
-main.obj: ../temperature_sensor_task.h
+main.obj: ../measurement_task.h
 main.obj: C:/ti/tivaware_c_series_2_1_4_178/third_party/FreeRTOS/Source/include/FreeRTOS.h
 main.obj: C:/ti/ccs1200/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/include/stddef.h
 main.obj: C:/ti/workspace/Projekt22/FreeRTOSConfig.h
@@ -45,6 +42,7 @@ main.obj: C:/ti/tivaware_c_series_2_1_4_178/inc/hw_gpio.h
 main.obj: C:/ti/tivaware_c_series_2_1_4_178/driverlib/interrupt.h
 main.obj: C:/ti/tivaware_c_series_2_1_4_178/driverlib/timer.h
 main.obj: C:/ti/tivaware_c_series_2_1_4_178/driverlib/adc.h
+main.obj: C:/ti/tivaware_c_series_2_1_4_178/inc/tm4c123gh6pm.h
 
 ../main.c:
 
@@ -92,13 +90,7 @@ C:/ti/ccs1200/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/include/stdarg.h:
 
 ../switch_task.h:
 
-../pressure_sensor_task.h:
-
-../ammeter_task.h:
-
-../dcdc_task.h:
-
-../temperature_sensor_task.h:
+../measurement_task.h:
 
 C:/ti/tivaware_c_series_2_1_4_178/third_party/FreeRTOS/Source/include/FreeRTOS.h:
 
@@ -135,4 +127,6 @@ C:/ti/tivaware_c_series_2_1_4_178/driverlib/interrupt.h:
 C:/ti/tivaware_c_series_2_1_4_178/driverlib/timer.h:
 
 C:/ti/tivaware_c_series_2_1_4_178/driverlib/adc.h:
+
+C:/ti/tivaware_c_series_2_1_4_178/inc/tm4c123gh6pm.h:
 
