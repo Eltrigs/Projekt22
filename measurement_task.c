@@ -380,13 +380,13 @@ MeasurementTask(void *pvParameters)
 uint32_t
 MeasurementTaskInit(void)
 {
-    UARTprintf("\nPressure sensor task init()\n");
+    UARTprintf("\nMeasurement task init()\n");
     //DCDCTaskInit();
     //
-    // Create the measurements.
+    // Create the measurements task.
     //
     if(xTaskCreate(MeasurementTask, (const portCHAR *)"Measurements", MEASUREMENTTASKSTACKSIZE, NULL,
-                   tskIDLE_PRIORITY + PRIORITY_PRESSURE_SENSOR_TASK, NULL) != pdTRUE)
+                   tskIDLE_PRIORITY + PRIORITY_MEASUREMENT_TASK, NULL) != pdTRUE)
     {
         return(1);
     }

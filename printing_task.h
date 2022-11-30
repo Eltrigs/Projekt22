@@ -8,6 +8,7 @@
 #ifndef PRINTING_TASK_H_
 #define PRINTING_TASK_H_
 
+
 // Prototype for printing information.
 extern uint32_t PrintingTaskInit(void);
 

@@ -36,6 +36,7 @@
 #include "led_task.h"
 #include "switch_task.h"
 #include "measurement_task.h"
+#include "printing_task.h"
 
 #include "FreeRTOS.h"
 #include "task.h"
@@ -327,12 +328,12 @@ main(void)
         while(1){}
     }
 
-    /*if(AmmeterTaskInit() != 0)
+    if(PrintingTaskInit() != 0)
     {
        while(1){}
     }
 
-    if(DCDCTaskInit() != 0)
+    /*if(DCDCTaskInit() != 0)
     {
         while(1){}
     }

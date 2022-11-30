@@ -24,6 +24,7 @@ main.obj: C:/ti/ccs1200/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/include/stdarg.
 main.obj: ../led_task.h
 main.obj: ../switch_task.h
 main.obj: ../measurement_task.h
+main.obj: ../printing_task.h
 main.obj: C:/ti/tivaware_c_series_2_1_4_178/third_party/FreeRTOS/Source/include/FreeRTOS.h
 main.obj: C:/ti/ccs1200/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/include/stddef.h
 main.obj: C:/ti/workspace/Projekt22/FreeRTOSConfig.h
@@ -91,6 +92,8 @@ C:/ti/ccs1200/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/include/stdarg.h:
 ../switch_task.h:
 
 ../measurement_task.h:
+
+../printing_task.h:
 
 C:/ti/tivaware_c_series_2_1_4_178/third_party/FreeRTOS/Source/include/FreeRTOS.h:
 

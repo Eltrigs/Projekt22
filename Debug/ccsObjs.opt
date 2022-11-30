@@ -1,6 +1,7 @@
 "./led_task.obj"
 "./main.obj"
 "./measurement_task.obj"
+"./printing_task.obj"
 "./startup_ccs.obj"
 "./switch_task.obj"
 "./drivers/buttons.obj"

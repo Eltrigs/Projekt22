@@ -12,6 +12,7 @@ C_SRCS += \
 ../led_task.c \
 ../main.c \
 ../measurement_task.c \
+../printing_task.c \
 ../startup_ccs.c \
 ../switch_task.c 
 
@@ -19,6 +20,7 @@ C_DEPS += \
 ./led_task.d \
 ./main.d \
 ./measurement_task.d \
+./printing_task.d \
 ./startup_ccs.d \
 ./switch_task.d 
 
@@ -26,6 +28,7 @@ OBJS += \
 ./led_task.obj \
 ./main.obj \
 ./measurement_task.obj \
+./printing_task.obj \
 ./startup_ccs.obj \
 ./switch_task.obj 
 
@@ -33,6 +36,7 @@ OBJS__QUOTED += \
 "led_task.obj" \
 "main.obj" \
 "measurement_task.obj" \
+"printing_task.obj" \
 "startup_ccs.obj" \
 "switch_task.obj" 
 
@@ -40,6 +44,7 @@ C_DEPS__QUOTED += \
 "led_task.d" \
 "main.d" \
 "measurement_task.d" \
+"printing_task.d" \
 "startup_ccs.d" \
 "switch_task.d" 
 
@@ -47,6 +52,7 @@ C_SRCS__QUOTED += \
 "../led_task.c" \
 "../main.c" \
 "../measurement_task.c" \
+"../printing_task.c" \
 "../startup_ccs.c" \
 "../switch_task.c" 
 

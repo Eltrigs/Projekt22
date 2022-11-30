@@ -32,10 +32,9 @@
 //*****************************************************************************
 #define PRIORITY_LED_TASK                   1
 #define PRIORITY_SWITCH_TASK                2
-#define MEASUREMENT_TASK                    7
-#define PRIORITY_PRESSURE_SENSOR_TASK       3
-#define PRIORITY_AMMETER_TASK               4
-#define PRIORITY_DCDC_TASK                  5
-#define PRIORITY_TEMPERATURE_SENSOR_TASK    6
+#define PRIORITY_MEASUREMENT_TASK           3
+#define PRIORITY_DATA_PROCESSING_TASK       4
+#define PRIORITY_PRINTING_TASK              5
+
 
 #endif // __PRIORITIES_H__
