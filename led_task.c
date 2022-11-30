@@ -210,11 +210,6 @@ LEDTaskInit(void)
     g_pui32Colors[g_ui8ColorsIndx] = 0x8000;
     RGBColorSet(g_pui32Colors);
 
-    //
-    // Print the current loggling LED and frequency.
-    //
-    UARTprintf("\nLed %d is blinking. [R, G, B]\n", g_ui8ColorsIndx);
-    UARTprintf("Led blinking frequency is %d ms.\n", (LED_TOGGLE_DELAY * 2));
 
     //
     // Create a queue for sending messages to the LED task.
@@ -224,6 +219,7 @@ LEDTaskInit(void)
     //
     // Create the LED task.
     //
+    UARTprintf("\nLed blinking task init()\n");
     if(xTaskCreate(LEDTask, (const portCHAR *)"LED", LEDTASKSTACKSIZE, NULL,
                    tskIDLE_PRIORITY + PRIORITY_LED_TASK, NULL) != pdTRUE)
     {

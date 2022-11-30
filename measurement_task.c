@@ -130,11 +130,6 @@ int PSReadRegisters(void){
     temperature = temperature + infobits;
     temperature = temperature >> 5;
 
-    xSemaphoreTake(g_pUARTSemaphore, portMAX_DELAY);
-    UARTprintf("status: %d|\t",status);
-    UARTprintf("Pressure: %d|\t",pressure);
-    UARTprintf("Temperature: %d\t",temperature);
-    xSemaphoreGive(g_pUARTSemaphore);
 
     pressureStatus = status;
     pressureRaw = pressure;
@@ -193,9 +188,6 @@ int TSReadADC(void){
     ui32ADCAvg = (ui32ADC0Value[0] + ui32ADC0Value[1] + ui32ADC0Value[2] + ui32ADC0Value[3]
            + ui32ADC0Value[4] + ui32ADC0Value[5] + ui32ADC0Value[6] + ui32ADC0Value[7] + 4)/8;
 
-    xSemaphoreTake(g_pUARTSemaphore, portMAX_DELAY);
-    UARTprintf("average temperature value: %d|\t",ui32ADCAvg);
-    xSemaphoreGive(g_pUARTSemaphore);
 
     temperatureRaw = ui32ADCAvg;
 
@@ -344,9 +336,6 @@ int AmmeterReadRegisters(void){
     infobits = I2CMasterDataGet(I2C0_BASE);
     result = result + infobits;
 
-    xSemaphoreTake(g_pUARTSemaphore, portMAX_DELAY);
-    UARTprintf("Ammeter current: %d|\t\n",result);
-    xSemaphoreGive(g_pUARTSemaphore);
 
     ammeterRaw = result;
 

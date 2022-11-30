@@ -9,6 +9,7 @@ CMD_SRCS += \
 ../freertos_demo_ccs.cmd 
 
 C_SRCS += \
+../data_processing_task.c \
 ../led_task.c \
 ../main.c \
 ../measurement_task.c \
@@ -17,6 +18,7 @@ C_SRCS += \
 ../switch_task.c 
 
 C_DEPS += \
+./data_processing_task.d \
 ./led_task.d \
 ./main.d \
 ./measurement_task.d \
@@ -25,6 +27,7 @@ C_DEPS += \
 ./switch_task.d 
 
 OBJS += \
+./data_processing_task.obj \
 ./led_task.obj \
 ./main.obj \
 ./measurement_task.obj \
@@ -33,6 +36,7 @@ OBJS += \
 ./switch_task.obj 
 
 OBJS__QUOTED += \
+"data_processing_task.obj" \
 "led_task.obj" \
 "main.obj" \
 "measurement_task.obj" \
@@ -41,6 +45,7 @@ OBJS__QUOTED += \
 "switch_task.obj" 
 
 C_DEPS__QUOTED += \
+"data_processing_task.d" \
 "led_task.d" \
 "main.d" \
 "measurement_task.d" \
@@ -49,6 +54,7 @@ C_DEPS__QUOTED += \
 "switch_task.d" 
 
 C_SRCS__QUOTED += \
+"../data_processing_task.c" \
 "../led_task.c" \
 "../main.c" \
 "../measurement_task.c" \

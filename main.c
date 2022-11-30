@@ -37,6 +37,7 @@
 #include "switch_task.h"
 #include "measurement_task.h"
 #include "printing_task.h"
+#include "data_processing_task.h"
 
 #include "FreeRTOS.h"
 #include "task.h"
@@ -61,10 +62,10 @@ uint32_t pressureTempRaw = 0;
 uint32_t temperatureRaw = 0;
 uint32_t ammeterRaw = 0;
 
-uint32_t pressure;
-uint32_t pressureTemp;
-uint32_t temperature;
-uint32_t ammeterCurrent;
+int pressure;
+int pressureTemp;
+int temperature;
+int ammeterCurrent;
 
 
 //*****************************************************************************
@@ -305,7 +306,7 @@ main(void)
     ConfigureI2C();
 
     // Print introduction.
-    UARTprintf("\n\nWelcome to the likely crash of a EK-TM4C123GXL FreeRTOS program!\n");
+    UARTprintf("\n\nLets see if it crashes this time!\n");
 
 
     // Create a mutex to guard the UART and I2C.
@@ -333,12 +334,12 @@ main(void)
        while(1){}
     }
 
-    /*if(DCDCTaskInit() != 0)
+    if(DataProcessingTaskInit() != 0)
     {
         while(1){}
     }
 
-    if(TemperatureSensorTaskInit() != 0)
+    /*if(TemperatureSensorTaskInit() != 0)
     {
         while(1){}
     }*/
